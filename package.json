@@ -19,6 +19,8 @@
     "json-loader": "*",
     "less": "*",
     "less-loader": "*",
+    "lodash": "^4.13.1",
+    "node-uuid": "^1.4.7",
     "react": "^0.14.2",
     "react-bootstrap": "^0.29.2",
     "react-dom": "^0.14.2",

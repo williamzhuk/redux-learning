@@ -1,21 +1,15 @@
-export function addTodo(text) {
-    return {
-        type: 'ADD_TODO',
-        text: text || 'Test'
-    };
-}
-export function toggleTodo(id) {
-    return {
-        type: 'TOGGLE_TODO',
-        id: id
-    };
-}
-export function setVisibilityFilter(filter){
-    return {
-        type: 'SET_VISIBILITY_FILTER',
-        filter: filter
-    };
-}
+export const addTodo = (text = 'Test') => ({
+    type: 'ADD_TODO',
+    text
+});
+export const toggleTodo = (id) => ({
+    type: 'TOGGLE_TODO',
+    id
+});
+export const setVisibilityFilter = (filter) => ({
+    type: 'SET_VISIBILITY_FILTER',
+    filter
+});
 // this requires redux-thunk only
 export function promiseThunk(param) {
     return (dispatch) => {

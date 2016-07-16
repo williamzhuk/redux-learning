@@ -12,7 +12,7 @@ let store = createStore();
 render((
     <Provider store={store}>
         <Router history={hashHistory}>
-            <Route path="/" component={App}/>
+            <Route path="/(:filter)" component={App}/>
         </Router>
     </Provider>
 ), document.getElementById('app'));

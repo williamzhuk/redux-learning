@@ -1,29 +1,22 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
-import * as actions from "../data/actions";
+import {Link, withRouter} from 'react-router';
 
-let FilterLink = (({setVisibilityFilter, ownFilter, currentFilter, children}) => {
+let FilterLink = (({filter, children, params}) => (
 
-    const onClick = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setVisibilityFilter(ownFilter);
-    };
+    <Link
+        to={filter === 'all' ? '/' : filter}
+        activeStyle={{
+      textDecoration: 'none',
+      color: 'black'
+    }}
+    >
+        {children}
+    </Link>
 
-    return (
-        ownFilter == currentFilter
-            ? <span>{children}</span>
-            : <a href='#' onClick={onClick}>{children}</a>
-    );
 
-});
+));
 
-export default connect((state, ownProps)=> {
-    return {
-        currentFilter: state.visibilityFilter,
-        ownFilter: ownProps.filter
-    };
-}, actions)(FilterLink);
+export default withRouter(FilterLink);
 
 // export default connect((state)=> {
 //     return {todos: state.todos};

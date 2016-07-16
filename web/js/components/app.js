@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
 import FilterLink from "./filterLink";
+import { withRouter } from 'react-router';
 
-const filterFn = (filter) => {
+const filterFn = (filter = 'all') => {
     return (item) => {
         if (filter == 'all') return true;
         return ((filter == 'active' && !item.completed) ||
@@ -11,7 +12,7 @@ const filterFn = (filter) => {
     };
 };
 
-let TodoApp = (({addTodo, toggleTodo, todos, visibilityFilter}) => {
+let TodoApp = ({addTodo, toggleTodo, todos, filter}) => {
 
     let input;
     const onClick = (e) => {
@@ -28,7 +29,7 @@ let TodoApp = (({addTodo, toggleTodo, todos, visibilityFilter}) => {
                 <button type="submit">Add Todo</button>
             </form>
             <ul>
-                {todos.filter(filterFn(visibilityFilter)).map(todo =>
+                {todos.filter(filterFn(filter)).map(todo =>
                     <li key={todo.id}
                         onClick={toggleTodo.bind(null, todo.id)}
                         style={{
@@ -49,14 +50,16 @@ let TodoApp = (({addTodo, toggleTodo, todos, visibilityFilter}) => {
         </div>
     );
 
-});
+};
 
-export default connect((state)=> {
-    return {
-        todos: state.todos,
-        visibilityFilter: state.visibilityFilter
-    };
-}, actions)(TodoApp);
+TodoApp = connect((state, ownProps)=> ({
+    todos: state.todos,
+    filter: ownProps.params.filter
+}), actions)(TodoApp);
+
+TodoApp = withRouter(TodoApp);
+
+export default TodoApp;
 
 // export default connect((state)=> {
 //     return {todos: state.todos};

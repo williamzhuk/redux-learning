@@ -1,12 +1,11 @@
 import {combineReducers} from "redux";
-
-let nextTodoId = 0;
+import {v4} from 'node-uuid';
 
 const todo = (state, action) => {
     switch (action.type) {
         case 'ADD_TODO':
             return {
-                id: ++nextTodoId,
+                id: v4(),
                 text: action.text,
                 completed: false
             };

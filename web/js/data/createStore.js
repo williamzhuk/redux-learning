@@ -1,6 +1,34 @@
 import {createStore} from "redux";
 import todoApp from "./reducers";
+import throttle from 'lodash/throttle';
 
-export default function(){
-    return createStore(todoApp);
+const loadState = () => {
+    try {
+        const serializedState = localStorage.getItem('todos');
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    } catch (err) {
+        return undefined;
+    }
+};
+
+const saveState = (state) => {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem('todos', serializedState);
+    } catch (err) {
+        // Ignore write errors.
+    }
+};
+
+export default function () {
+    var store = createStore(todoApp, loadState());
+    store.subscribe(throttle(() => {
+        saveState({
+            todos: store.getState().todos
+        })
+    }), 1000);
+    return store;
 };
