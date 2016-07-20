@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
 import FilterLink from "./filterLink";
+import ApiTodos from "./apiTodos";
 import { withRouter } from 'react-router';
 
 const filterFn = (filter = 'all') => {
@@ -47,6 +48,8 @@ let TodoApp = ({addTodo, toggleTodo, todos, filter}) => {
                 <FilterLink filter="active">Active</FilterLink>
                 <FilterLink filter="completed">Completed</FilterLink>
             </div>
+            <hr/>
+            <ApiTodos/>
         </div>
     );
 

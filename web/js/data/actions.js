@@ -1,3 +1,7 @@
+import * as api from "./api";
+
+let saveTodo = api.save('/api/todo');
+
 export const addTodo = (text = 'Test') => ({
     type: 'ADD_TODO',
     text
@@ -10,6 +14,14 @@ export const setVisibilityFilter = (filter) => ({
     type: 'SET_VISIBILITY_FILTER',
     filter
 });
+
+export const fetchTodoAPI = () => {
+    return  {
+        type: 'FETCH_TODO_API',
+        payload: api.list('/api/todo')
+    };
+};
+
 // this requires redux-thunk only
 export function promiseThunk(param) {
     return (dispatch) => {

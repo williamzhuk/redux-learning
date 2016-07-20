@@ -39,16 +39,30 @@ const todos = (state = [], action) => {
     }
 };
 
-const visibilityFilter = (state = 'all', action) => {
-    switch (action.type) {
-        case 'SET_VISIBILITY_FILTER':
-            return action.filter;
-        default:
-            return state;
-    }
+const initialState = {
+    items: [],
+    loading: false,
+    error: null
 };
+
+const createApiListReducer = (prefix) => {
+    return (state = initialState, action) => {
+        switch (action.type) {
+            case `${prefix}_LOADING`:
+                return {...state, loading: true};
+            case `${prefix}_SUCCESS`:
+                return {...state, loading: false, items: action.payload};
+            case `${prefix}_ERROR`:
+                return {...state, loading: false, error: action.payload};
+            default:
+                return state;
+        }
+    };
+};
+
+const apiTodos = createApiListReducer('FETCH_TODO_API');
 
 export default combineReducers({
     todos: todos,
-    visibilityFilter: visibilityFilter
+    apiTodos: apiTodos
 });
