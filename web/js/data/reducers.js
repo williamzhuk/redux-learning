@@ -88,12 +88,64 @@ const apiTodos = (state = initialState, action) => {
     }
 };
 
+const apiTodosItems = (state = [], action) => {
+    switch (action.type) {
+        case 'SAVE_TODO_API_SUCCESS':
+            let found = false;
+            let items = state.map((item) => {
+                let isSame = item.id == action.payload.id;
+                if (isSame) {
+                    found = true;
+                    return action.payload;
+                }
+                return item;
+            });
+            if (!found) {
+                items.push(action.payload);
+            }
+            return items;
+        case 'FETCH_TODO_API_SUCCESS':
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
+const apiTodosError = (state = null, action) => {
+    switch (action.type) {
+        case 'SAVE_TODO_API_LOADING':
+        case 'FETCH_TODO_API_LOADING':
+        case 'SAVE_TODO_API_SUCCESS':
+        case 'FETCH_TODO_API_SUCCESS':
+            return null;
+        case 'SAVE_TODO_API_ERROR':
+        case 'FETCH_TODO_API_ERROR':
+            return action.payload;
+        default:
+            return state;
+    }
+};
+const apiTodosLoading = (state = false, action) => {
+    switch (action.type) {
+        case 'SAVE_TODO_API_LOADING':
+        case 'FETCH_TODO_API_LOADING':
+            return true;
+        case 'SAVE_TODO_API_SUCCESS':
+        case 'FETCH_TODO_API_SUCCESS':
+        case 'SAVE_TODO_API_ERROR':
+        case 'FETCH_TODO_API_ERROR':
+            return false;
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     todos: todos,
-    apiTodos: apiTodos //TODO Use combine
-    // apiTodos: combineReducers({
-    //     items: apiTodosItems,
-    //     error: apiTodosError,
-    //     loading: apiTodosLoading,
-    // })
+    //apiTodos: apiTodos //TODO Use combine
+    apiTodos: combineReducers({
+        items: apiTodosItems,
+        error: apiTodosError,
+        loading: apiTodosLoading,
+    })
 });
