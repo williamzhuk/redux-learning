@@ -3,13 +3,13 @@ import {connect} from "react-redux";
 import * as actions from "../data/actions";
 import FilterLink from "./filterLink";
 import ApiTodos from "./apiTodos";
-import { withRouter } from 'react-router';
+import {withRouter} from 'react-router';
 
 const filterFn = (filter = 'all') => {
     return (item) => {
         if (filter == 'all') return true;
         return ((filter == 'active' && !item.completed) ||
-            (filter == 'completed' && item.completed));
+        (filter == 'completed' && item.completed));
     };
 };
 
@@ -26,7 +26,9 @@ let TodoApp = ({addTodo, toggleTodo, todos, filter}) => {
     return (
         <div>
             <form onSubmit={onClick}>
-                <input ref={node => {input = node;}}/>
+                <input ref={node => {
+                    input = node;
+                }}/>
                 <button type="submit">Add Todo</button>
             </form>
             <ul>
@@ -34,18 +36,17 @@ let TodoApp = ({addTodo, toggleTodo, todos, filter}) => {
                     <li key={todo.id}
                         onClick={toggleTodo.bind(null, todo.id)}
                         style={{
-                            textDecoration:
-                            todo.completed ?
-                            'line-through' :
-                               'none'
-                            }}>
+                            textDecoration: todo.completed ?
+                                'line-through' :
+                                'none'
+                        }}>
                         {todo.text}
                     </li>
                 )}
             </ul>
             <div>
-                <FilterLink filter="all">All</FilterLink>
-                <FilterLink filter="active">Active</FilterLink>
+                <FilterLink filter="all">All</FilterLink><br/>
+                <FilterLink filter="active">Active</FilterLink><br/>
                 <FilterLink filter="completed">Completed</FilterLink>
             </div>
             <hr/>

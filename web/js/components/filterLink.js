@@ -1,22 +1,17 @@
 import React, {Component} from "react";
 import {Link, withRouter} from 'react-router';
 
-let FilterLink = (({filter, children, params}) => (
+let FilterLink = (({filter, children, params}) => {
+    params.filter = params.filter || "all";
+    return params.filter == filter ?
+        <span>{children}</span> :
+        <Link to={filter === 'all' ? '/' : filter}>{children}</Link>;
 
-    <Link
-        to={filter === 'all' ? '/' : filter}
-        activeStyle={{
-      textDecoration: 'none',
-      color: 'black'
-    }}
-    >
-        {children}
-    </Link>
+});
 
 
-));
-
-export default withRouter(FilterLink);
+FilterLink = withRouter(FilterLink);
+export default FilterLink;
 
 // export default connect((state)=> {
 //     return {todos: state.todos};
