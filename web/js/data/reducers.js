@@ -60,9 +60,40 @@ const createApiListReducer = (prefix) => {
     };
 };
 
-const apiTodos = createApiListReducer('FETCH_TODO_API');
+const fetchReducer = createApiListReducer('FETCH_TODO_API');
+
+const apiTodos = (state = initialState, action) => {
+    let prefix = 'SAVE_TODO_API';
+    switch (action.type) {
+        case `${prefix}_LOADING`:
+            return fetchReducer(state, {...action, type: 'FETCH_TODO_API_LOADING'});
+        case `${prefix}_SUCCESS`:
+            let found = false;
+            let items = state.items.map((item) => {
+                let isSame = item.id == action.payload.id;
+                if (isSame) {
+                    found = true;
+                    return action.payload;
+                }
+                return item;
+            });
+            if (!found) {
+                items.push(action.payload);
+            }
+            return {...state, loading: false, items: items};
+        case `${prefix}_ERROR`:
+            return fetchReducer(state, {...action, type: 'FETCH_TODO_API_ERROR'});
+        default:
+            return fetchReducer(state, action);
+    }
+};
 
 export default combineReducers({
     todos: todos,
-    apiTodos: apiTodos
+    apiTodos: apiTodos //TODO Use combine
+    // apiTodos: combineReducers({
+    //     items: apiTodosItems,
+    //     error: apiTodosError,
+    //     loading: apiTodosLoading,
+    // })
 });

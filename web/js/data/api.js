@@ -27,13 +27,15 @@ export function save(prefix) {
             body.id = v4(); //This should be done on server
             isNew = true;
         }
+        body.completed = !!body.completed;
+        body.text = body.text || '';
         let url = isNew ? '' : `/${body.id}`;
         //return fetch(`${prefix}${url}`, {body: body, method: isNew ? 'POST' : 'PUT'})
         fakeStore[prefix][body.id] = body;
         return new Promise((resolve, reject)=>{
             setTimeout(()=>{
                 resolve(body);
-            },5000);
+            },500);
         })
     }
 }
@@ -44,6 +46,6 @@ export function list(prefix) {
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{
             resolve(array);
-        },5000);
+        },1000);
     });
 }

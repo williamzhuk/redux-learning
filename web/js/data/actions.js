@@ -22,6 +22,17 @@ export const fetchTodoAPI = () => {
     };
 };
 
+export const saveTodoAPI = (todo) => {
+    return {
+        type: 'SAVE_TODO_API',
+        payload: saveTodo(todo)
+    }
+};
+
+export const toggleTodoAPI = (todo) => {
+    return saveTodoAPI({...todo, completed: !todo.completed});
+};
+
 // this requires redux-thunk only
 export function promiseThunk(param) {
     return (dispatch) => {
