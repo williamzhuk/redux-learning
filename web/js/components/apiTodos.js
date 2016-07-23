@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
 import {withRouter} from 'react-router';
+import Todo from "./todo";
 
 const filterFn = (filter = 'all') => {
     return (item) => {
@@ -30,10 +31,6 @@ class ApiTodos extends React.Component {
         this.refs.input.value = '';
     }
 
-    onToggleTodo(todo) {
-        this.props.toggleTodoAPI(todo);
-    }
-
     render() {
         let {items, loading, error} = this.props;
         if (loading) return <div>Loading</div>;
@@ -49,16 +46,8 @@ class ApiTodos extends React.Component {
                 </form>
                 <ul>
                     {/*TODO Create a function component here*/}
-                    {items.map(todo =>
-                        <li key={todo.id}
-                            onClick={this.onToggleTodo.bind(this, todo)}
-                            style={{
-                                textDecoration: todo.completed ?
-                                    'line-through' :
-                                    'none'
-                            }}>
-                            {todo.text}
-                        </li>
+                    {items.filter(filterFn(this.props.params.filter)).map(todo =>
+                        <Todo key={todo.id} todo={todo}/>
                     )}
                 </ul>
 
