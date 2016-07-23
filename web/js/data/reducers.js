@@ -106,6 +106,8 @@ const apiTodosItems = (state = [], action) => {
             return items;
         case 'FETCH_TODO_API_SUCCESS':
             return action.payload;
+        case 'PUSH_TODO':
+            return [...state, action.payload];
         default:
             return state;
     }
@@ -125,15 +127,25 @@ const apiTodosError = (state = null, action) => {
             return state;
     }
 };
+
 const apiTodosLoading = (state = false, action) => {
     switch (action.type) {
-        case 'SAVE_TODO_API_LOADING':
         case 'FETCH_TODO_API_LOADING':
             return true;
-        case 'SAVE_TODO_API_SUCCESS':
         case 'FETCH_TODO_API_SUCCESS':
-        case 'SAVE_TODO_API_ERROR':
         case 'FETCH_TODO_API_ERROR':
+            return false;
+        default:
+            return state;
+    }
+};
+
+const apiTodosLoadingSave = (state = false, action) => {
+    switch (action.type) {
+        case 'SAVE_TODO_API_LOADING':
+            return true;
+        case 'SAVE_TODO_API_SUCCESS':
+        case 'SAVE_TODO_API_ERROR':
             return false;
         default:
             return state;
@@ -147,5 +159,6 @@ export default combineReducers({
         items: apiTodosItems,
         error: apiTodosError,
         loading: apiTodosLoading,
+        loadingSave: apiTodosLoadingSave
     })
 });

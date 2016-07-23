@@ -4,10 +4,11 @@ import {Router, Route, IndexRoute, Link, Redirect, hashHistory} from 'react-rout
 import App from './components/app';
 import {Provider} from "react-redux";
 import createStore from "./data/createStore";
+import storeHandler from "./data/storeHandler";
 
 import '../css/style.less';
 
-let store = createStore();
+let store = storeHandler(createStore());
 
 render((
     <Provider store={store}>

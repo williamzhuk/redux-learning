@@ -33,6 +33,12 @@ export const toggleTodoAPI = (todo) => {
     return saveTodoAPI({...todo, completed: !todo.completed});
 };
 
+//TODO We may also use optimistic update and reload the entire list
+export const pushTodo = (todo) => ({
+    type: 'PUSH_TODO',
+    payload: todo
+});
+
 // this requires redux-thunk only
 export function promiseThunk(param) {
     return (dispatch) => {

@@ -1,4 +1,5 @@
 import {v4} from 'node-uuid';
+import TinyEmitter from "tiny-emitter";
 
 // let fakeStore = {
 //     '/api/todo': {
@@ -68,3 +69,23 @@ export function list(prefix) {
         }, 500);
     });
 }
+
+let emitter = new TinyEmitter();
+
+export function onPush(cb) {
+    emitter.on('push', cb);
+}
+
+window.emulatePush = function(text){
+    let fakeStore = getFakeStore();
+    let newTodo = {
+        id: v4(),
+        text: text,
+        completed: false
+    };
+    fakeStore['/api/todo'][newTodo.id] = newTodo;
+    emitter.emit('push', {
+        type: 'newTodo',
+        payload: newTodo
+    });
+};
