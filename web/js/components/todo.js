@@ -1,55 +1,43 @@
 import React from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
-import Pure from "./pure";
 
-export default class Todo extends Pure {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            edit: false,
-            text: ''
-        };
-    }
+export default function Todo({saveTodoAPI, toggleTodoAPI, todo, text, editTodo, editTodoUpdate, cancelEditTodo}) {
 
-    onClick(e) {
-        this.props.toggleTodoAPI(this.props.todo);
-    }
+    let input;
 
-    onEdit() {
-        this.setState({
-            edit: true,
-            text: this.props.todo.text
+    let onClick = (e) => {
+        toggleTodoAPI(todo);
+    };
+
+    let onEdit = (e) => {
+        editTodo(todo);
+    };
+
+    let onSave = () => {
+        saveTodoAPI({
+            ...todo,
+            text
         });
-    }
+    };
 
-    onSave() {
-        this.props
-            .saveTodoAPI({
-                ...this.props.todo,
-                text: this.state.text
-            });
-    }
+    let onFinish = () => {
+        cancelEditTodo(todo);
+    };
 
-    onFinish() {
-        this.setState({edit: false, text: ''});
-    }
+    let onChange = () => {
+        editTodoUpdate(todo, input.value);
+    };
 
-    onChange() {
-        this.setState({text: this.refs.text.value});
-    }
-
-    render() {
-        let todo = this.props.todo;
-        return <li>
-            {this.state.edit ?
-                <div>
-                    <input type="text" ref="text" value={this.state.text} onChange={::this.onChange}/>
-                    <button onClick={::this.onSave}>Save</button>
-                    <button onClick={::this.onFinish}>Cancel</button>
-                </div> :
-                <div>
-                    <span onClick={::this.onClick}
+    return <li>
+        {text ?
+            <div>
+                <input type="text" ref={node => { input = node; }} value={text} onChange={onChange}/>
+                <button onClick={onSave}>Save</button>
+                <button onClick={onFinish}>Cancel</button>
+            </div> :
+            <div>
+                    <span onClick={onClick}
                           style={{
                               textDecoration: todo.completed ?
                                   'line-through' :
@@ -57,13 +45,16 @@ export default class Todo extends Pure {
                           }}>
                     {todo.text}
                     </span>
-                    <button onClick={::this.onEdit}>Edit</button>
-                </div>
-            }
-        </li>;
-    }
+                <button onClick={onEdit}>Edit</button>
+            </div>
+        }
+    </li>;
+
 }
 
-Todo = connect(null, actions)(Todo);
+
+Todo = connect((state, ownProps) => ({
+    text: state.apiTodos.edits[ownProps.todo.id]
+}), actions)(Todo);
 
 export default Todo;

@@ -152,10 +152,31 @@ const apiTodosLoadingSave = (state = false, action) => {
     }
 };
 
+const apiTodosEdits = (state = {}, action) => {
+    let newState = {...state};
+    switch (action.type) {
+        case 'EDIT_TODO':
+            return {...state, [action.todo.id]: action.todo.text};
+        case 'EDIT_TODO_UPDATE':
+            return {...state, [action.todo.id]: action.text};
+        case 'CANCEL_EDIT_TODO':
+            delete newState[action.todo.id];
+            return newState;
+        case 'SAVE_TODO_API_SUCCESS':
+            delete newState[action.payload.id];
+            return newState;
+        //TODO Handle save error
+        default:
+            return state;
+    }
+};
+
+
 export default combineReducers({
     todos: todos,
     //apiTodos: apiTodos //TODO Use combine
     apiTodos: combineReducers({
+        edits: apiTodosEdits,
         items: apiTodosItems,
         error: apiTodosError,
         loading: apiTodosLoading,

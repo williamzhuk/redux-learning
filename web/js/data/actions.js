@@ -2,6 +2,19 @@ import * as api from "./api";
 
 let saveTodo = api.save('/api/todo');
 
+export const editTodo = (todo) => ({
+    type: 'EDIT_TODO',
+    todo
+});
+export const editTodoUpdate = (todo, text) => ({
+    type: 'EDIT_TODO_UPDATE',
+    todo,
+    text
+});
+export const cancelEditTodo = (todo) => ({
+    type: 'CANCEL_EDIT_TODO',
+    todo
+});
 export const addTodo = (text = 'Test') => ({
     type: 'ADD_TODO',
     text
