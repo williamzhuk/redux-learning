@@ -43,5 +43,11 @@ export default function () {
             todos: store.getState().todos
         })
     }), 1000);
+    if (module.hot) {
+        module.hot.accept('./reducers', () => {
+            const nextRootReducer = require('./reducers');
+            store.replaceReducer(nextRootReducer);
+        });
+    }
     return store;
 };
