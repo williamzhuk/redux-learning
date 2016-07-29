@@ -1,60 +1,79 @@
 import React from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
+import * as reducers from "../data/reducers";
+import * as bl from "../data/businessLayer";
 
-export default function Todo({saveTodoAPI, toggleTodoAPI, todo, text, editTodo, editTodoUpdate, cancelEditTodo}) {
+export function Todo({
+    todo,
+    text,
+    onSaveTodo,
+    onToggleTodo,
+    onEditTodo,
+    onEditUpdateTodo,
+    onCancelEditTodo
+}) {
 
     let input;
 
     let onClick = (e) => {
-        toggleTodoAPI(todo);
+        onToggleTodo(todo);
     };
 
     let onEdit = (e) => {
-        editTodo(todo);
+        onEditTodo(todo);
     };
 
     let onSave = () => {
-        saveTodoAPI({
+        onSaveTodo({
             ...todo,
             text
         });
     };
 
     let onFinish = () => {
-        cancelEditTodo(todo);
+        onCancelEditTodo(todo);
     };
 
     let onChange = () => {
-        editTodoUpdate(todo, input.value);
+        onEditUpdateTodo(todo, input.value);
     };
-
+    console.log("todo item", todo, text);
     return <li>
         {text ?
             <div>
-                <input type="text" ref={node => { input = node; }} value={text} onChange={onChange}/>
+                <input type="text" ref={node => {
+                    input = node;
+                }} value={text} onChange={onChange}/>
                 <button onClick={onSave}>Save</button>
                 <button onClick={onFinish}>Cancel</button>
             </div> :
             <div>
-                    <span onClick={onClick}
-                          style={{
-                              textDecoration: todo.completed ?
-                                  'line-through' :
-                                  'none'
-                          }}>
-                    {todo.text}
-                    </span>
-                <button onClick={onEdit}>Edit</button>
+                <span onClick={onClick}
+                      style={{
+                          textDecoration: todo.completed ?
+                              'line-through' :
+                              'none'
+                      }}>
+                {todo.text}
+                </span>
+                {bl.isTodoEditable(todo) ?
+                    <button onClick={onEdit}>Edit</button> :
+                    null}
             </div>
         }
     </li>;
 
 }
 
+let TodoWrapped = connect((state, ownProps) => ({
+    text: reducers.getTodoEditTextById(state, ownProps.todo.id)
+}), {
+    onToggleTodo: actions.toggleTodoAPI,
+    onEditTodo: actions.editTodo,
+    onSaveTodo: actions.saveTodoAPI,
+    onCancelEditTodo: actions.cancelEditTodo,
+    onEditUpdateTodo: actions.editTodoUpdate
+})(Todo);
 
-Todo = connect((state, ownProps) => ({
-    text: state.apiTodos.edits[ownProps.todo.id]
-}), actions)(Todo);
-
-export default Todo;
+export default TodoWrapped;

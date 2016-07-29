@@ -9,19 +9,5 @@ let FilterLink = (({filter, children, params}) => {
 
 });
 
-
 FilterLink = withRouter(FilterLink);
 export default FilterLink;
-
-// export default connect((state)=> {
-//     return {todos: state.todos};
-// }, (dispatch) => {
-//     return {
-//         onAddTodo(text){
-//             dispatch(addTodo(text))
-//         },
-//         onToggleTodo(id){
-//             dispatch(toggleTodo(id))
-//         }
-//     }
-// })(TodoApp);

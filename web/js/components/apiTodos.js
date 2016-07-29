@@ -1,42 +1,30 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
+import * as reducers from "../data/reducers";
 import {withRouter} from 'react-router';
 import Todo from "./todo";
 
-const filterFn = (filter = 'all') => {
-    return (item) => {
-        if (filter == 'all') return true;
-        return ((filter == 'active' && !item.completed) ||
-        (filter == 'completed' && item.completed));
-    };
-};
-
 class ApiTodos extends React.Component {
-    onTodoClick(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        // addTodo(input.value);
-        // input.value = '';
-    }
 
     componentWillMount() {
-        this.props.fetchTodoAPI();
+        this.props.onTodoFetch();
     }
 
     onAddTodo(e) {
         e.stopPropagation();
         e.preventDefault();
-        this.props.saveTodoAPI({text: this.refs.input.value});
+        this.props.onTodoSave({text: this.refs.input.value});
         this.refs.input.value = '';
     }
 
     render() {
+
         let {items, loading, error} = this.props;
         if (loading) return <div>Loading</div>;
         if (error) return <div>ERROR!!! {error.message || error}</div>;
 
-        let input;
+        console.log('ApiTodos', items.length);
 
         return (
             <div>
@@ -46,7 +34,7 @@ class ApiTodos extends React.Component {
                 </form>
                 <ul>
                     {/*TODO Create a function component here*/}
-                    {items.filter(filterFn(this.props.params.filter)).map(todo =>
+                    {items.map(todo =>
                         <Todo key={todo.id} todo={todo}/>
                     )}
                 </ul>
@@ -57,8 +45,13 @@ class ApiTodos extends React.Component {
 }
 
 ApiTodos = connect((state, ownProps)=> ({
-    ...state.apiTodos
-}), actions)(ApiTodos);
+    loading: state.apiTodos.loading,
+    error: state.apiTodos.error,
+    items: reducers.getTodosByFilter(state, ownProps.params.filter)
+}), {
+    onTodoSave: actions.saveTodoAPI,
+    onTodoFetch: actions.fetchTodoAPI
+})(ApiTodos);
 
 ApiTodos = withRouter(ApiTodos);
 

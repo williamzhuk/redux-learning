@@ -171,6 +171,21 @@ const apiTodosEdits = (state = {}, action) => {
     }
 };
 
+const filterFn = (filter = 'all') => {
+    return (item) => {
+        if (filter == 'all') return true;
+        return ((filter == 'active' && !item.completed) ||
+        (filter == 'completed' && item.completed));
+    };
+};
+
+export function getTodosByFilter(state, filter){
+    return state.apiTodos.items.filter(filterFn(filter));
+}
+
+export function getTodoEditTextById(state, id) {
+    return  state.apiTodos.edits[id];
+}
 
 export default combineReducers({
     todos: todos,
@@ -179,6 +194,7 @@ export default combineReducers({
         edits: apiTodosEdits,
         items: apiTodosItems,
         error: apiTodosError,
+        fetched: apiTodosLoading,
         loading: apiTodosLoading,
         loadingSave: apiTodosLoadingSave
     })
