@@ -6,11 +6,10 @@ import * as bl from "../data/businessLayer";
 
 export function Todo({
     todo,
-    text,
+    isEdit,
     onSaveTodo,
     onToggleTodo,
     onEditTodo,
-    onEditUpdateTodo,
     onCancelEditTodo
 }) {
 
@@ -24,10 +23,12 @@ export function Todo({
         onEditTodo(todo);
     };
 
-    const onSave = () => {
+    const onSave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         onSaveTodo({
             ...todo,
-            text
+            text: input.value
         });
     };
 
@@ -35,19 +36,16 @@ export function Todo({
         onCancelEditTodo(todo);
     };
 
-    const onChange = () => {
-        onEditUpdateTodo(todo, input.value);
-    };
-    console.log("todo item", todo, text);
     return <li>
-        {text ?
-            <div>
+        {isEdit ?
+            <form onSubmit={onSave}>
                 <input type="text" ref={node => {
+                    if (node && !node.value) node.value = todo.text;
                     input = node;
-                }} value={text} onChange={onChange}/>
-                <button onClick={onSave}>Save</button>
-                <button onClick={onFinish}>Cancel</button>
-            </div> :
+                }}/>
+                <button type="submit">Save</button>
+                <button type="button" onClick={onFinish}>Cancel</button>
+            </form> :
             <div>
                 <span onClick={onClick}
                       style={{
@@ -58,7 +56,7 @@ export function Todo({
                 {todo.text}
                 </span>
                 {bl.isTodoEditable(todo) ?
-                    <button onClick={onEdit}>Edit</button> :
+                    <button type="button" onClick={onEdit}>Edit</button> :
                     null}
             </div>
         }
@@ -67,13 +65,12 @@ export function Todo({
 }
 
 let TodoWrapped = connect((state, ownProps) => ({
-    text: reducers.getTodoEditTextById(state, ownProps.todo.id)
+    isEdit: reducers.getTodoEditTextById(state, ownProps.todo.id)
 }), {
     onToggleTodo: actions.toggleTodoAPI,
     onEditTodo: actions.editTodo,
     onSaveTodo: actions.saveTodoAPI,
-    onCancelEditTodo: actions.cancelEditTodo,
-    onEditUpdateTodo: actions.editTodoUpdate
+    onCancelEditTodo: actions.cancelEditTodo
 })(Todo);
 
 export default TodoWrapped;
