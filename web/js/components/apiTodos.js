@@ -44,13 +44,10 @@ class ApiTodos extends React.Component {
     }
 }
 
-//FIXME Bad practice for sake of simplicity
-let todosSelectorMemoized = reducers.getTodosByFilter();
-
 ApiTodos = connect((state, ownProps) => ({
     loading: state.apiTodos.loading,
     error: state.apiTodos.error,
-    items: todosSelectorMemoized(state, ownProps.params.filter)
+    items: reducers.getTodosByFilter(state, ownProps.filter)
 }), {
     onTodoSave: actions.saveTodoAPI,
     onTodoFetch: actions.fetchTodoAPI

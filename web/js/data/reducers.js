@@ -1,5 +1,8 @@
 import {combineReducers} from "redux";
-import {v4} from 'node-uuid';
+import {v4} from "node-uuid";
+import {createSelector} from "reselect";
+
+// Reducers
 
 const apiTodosItems = (state = [], action) => {
     switch (action.type) {
@@ -82,38 +85,32 @@ const apiTodosEdits = (state = {}, action) => {
     }
 };
 
-const filterFn = (filter = 'all') => {
-    return (item) => {
-        if (filter == 'all') return true;
-        return ((filter == 'active' && !item.completed) ||
-        (filter == 'completed' && item.completed));
-    };
-};
-
-export const getTodosByFilter = () => {
-    let lastFilter = null;
-    let lastItems = null;
-    let lastResult = null;
-    return (state, filter) => {
-        let items = state.apiTodos.items;
-        if (!lastResult || lastFilter !== filter || lastItems !== items) {
-            lastResult = items.filter(filterFn(filter));
-            lastFilter = filter;
-            lastItems = items;
-        }
-        return lastResult;
-    };
-};
-
-export function getTodoEditTextById(state, id) {
-    return  state.apiTodos.edits[id];
-}
-
 const checkReducer = (state = false, action) => {
     if (action.type == 'CHECK')
         return action.checked;
     return state;
 };
+
+// Selectors
+
+const filterFn = (filter = 'all') => {
+    return (item) => {
+        if (filter == 'all') return true;
+        return ((filter == 'active' && !item.completed) ||
+                (filter == 'completed' && item.completed));
+    };
+};
+
+export const getTodoEditTextById = (state, id) => state.apiTodos.edits[id];
+export const getTodosByFilter = createSelector(
+    [
+        (state, filter) => state.apiTodos.items,
+        (state, filter) => filter
+    ],
+    (items, filter) => items.filter(filterFn(filter))
+);
+
+// Main Reducer
 
 export default combineReducers({
     check: checkReducer,
