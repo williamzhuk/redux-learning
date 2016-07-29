@@ -179,17 +179,33 @@ const filterFn = (filter = 'all') => {
     };
 };
 
-export function getTodosByFilter(state, filter){
-    return state.apiTodos.items.filter(filterFn(filter));
-}
+export const getTodosByFilter = () => {
+    let lastFilter = null;
+    let lastItems = null;
+    let lastResult = null;
+    return (state, filter) => {
+        let items = state.apiTodos.items;
+        if (!lastResult || lastFilter !== filter || lastItems !== items) {
+            lastResult = items.filter(filterFn(filter));
+            lastFilter = filter;
+            lastItems = items;
+        }
+        return lastResult;
+    };
+};
 
 export function getTodoEditTextById(state, id) {
     return  state.apiTodos.edits[id];
 }
 
+const checkReducer = (state = false, action) => {
+    if (action.type == 'CHECK')
+        return action.checked;
+    return state;
+};
+
 export default combineReducers({
-    todos: todos,
-    //apiTodos: apiTodos //TODO Use combine
+    check: checkReducer,
     apiTodos: combineReducers({
         edits: apiTodosEdits,
         items: apiTodosItems,

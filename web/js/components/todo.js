@@ -16,26 +16,26 @@ export function Todo({
 
     let input;
 
-    let onClick = (e) => {
+    const onClick = (e) => {
         onToggleTodo(todo);
     };
 
-    let onEdit = (e) => {
+    const onEdit = (e) => {
         onEditTodo(todo);
     };
 
-    let onSave = () => {
+    const onSave = () => {
         onSaveTodo({
             ...todo,
             text
         });
     };
 
-    let onFinish = () => {
+    const onFinish = () => {
         onCancelEditTodo(todo);
     };
 
-    let onChange = () => {
+    const onChange = () => {
         onEditUpdateTodo(todo, input.value);
     };
     console.log("todo item", todo, text);

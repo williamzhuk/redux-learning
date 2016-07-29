@@ -31,6 +31,7 @@
     "redux-logger": "^2.6.1",
     "redux-promise-middleware": "^3.3.2",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.3",
     "style-loader": "*",
     "tiny-emitter": "^1.1.0",
     "url-loader": "*",

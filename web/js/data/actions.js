@@ -2,6 +2,10 @@ import * as api from "./api";
 
 let saveTodo = api.save('/api/todo');
 
+export const check = (checked) => ({
+    type: 'CHECK',
+    checked
+});
 export const editTodo = (todo) => ({
     type: 'EDIT_TODO',
     todo
