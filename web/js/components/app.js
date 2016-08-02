@@ -1,14 +1,11 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 import FilterLink from "./filterLink";
 import ApiTodos from "./apiTodos";
-import * as actions from "../data/actions";
+import Checkbox from "./checkbox";
 
-let TodoApp = ({checked, onChecked}) => {
+let TodoApp = () => {
 
-    const onCheckboxChange = (e) => {
-        onChecked(e.target.checked);
-    };
+
 
     return (
         <div>
@@ -20,17 +17,10 @@ let TodoApp = ({checked, onChecked}) => {
             <hr/>
             <ApiTodos/>
             <hr/>
-            <input type="checkbox" value="on" checked={checked} onChange={onCheckboxChange}/>
+            <Checkbox/>
         </div>
     );
 
 };
-
-//TODO Make a component for checkbox so that App itself will not have to access state
-TodoApp = connect((state, ownProps) => ({
-    checked: state.checked
-}), {
-    onChecked: actions.check
-})(TodoApp);
 
 export default TodoApp;

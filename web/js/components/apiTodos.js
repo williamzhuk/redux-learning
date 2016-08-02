@@ -47,7 +47,7 @@ class ApiTodos extends React.Component {
 ApiTodos = connect((state, ownProps) => ({
     loading: state.apiTodos.loading,
     error: state.apiTodos.error,
-    items: reducers.getTodosByFilter(state, ownProps.filter)
+    items: reducers.getTodosByFilter(state, ownProps.params.filter)
 }), {
     onTodoSave: actions.saveTodoAPI,
     onTodoFetch: actions.fetchTodoAPI
