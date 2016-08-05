@@ -5,8 +5,6 @@ import Checkbox from "./checkbox";
 
 let TodoApp = () => {
 
-
-
     return (
         <div>
             <div>
