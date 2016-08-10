@@ -19,8 +19,44 @@ let Th = ({onSetSort, currentSort, ownSort, children, ...props}) => {
     </th>;
 };
 
+let Paginator = ({page, perPage, total, filteredTotal, onSetPage, onSetPerPage}) => {
+    const onChange = (e) => {
+        onSetPerPage(parseInt(e.target.value, 10));
+    };
 
-let DataGrid = ({users, roleId, filter, sort, onSetSort, onSetRoleId, onSetFilter}) => {
+    const numPages = Math.ceil(filteredTotal / perPage);
+    let array = [];
+    for (let i = 1; i <= numPages; ++i) {
+        array.push(<button onClick={onSetPage.bind(null, i)} disabled={page == i}>{i}</button>)
+    }
+
+    return <span>
+        Showing {perPage > filteredTotal ? filteredTotal : perPage} of {filteredTotal} filtered, {total} total
+        {' '}
+        {array}
+        {' '}
+        <select value={perPage} onChange={onChange}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+    </span>
+};
+
+let DataGrid = ({
+    users,
+    roleId,
+    filter,
+    sort,
+    total,
+    filteredTotal,
+    pagination,
+    onSetSort,
+    onSetRoleId,
+    onSetFilter,
+    onSetPage,
+    onSetPerPage
+}) => {
     const onSelectChange = (e) => {
         onSetRoleId(parseInt(e.target.value), 10);
     };
@@ -55,6 +91,17 @@ let DataGrid = ({users, roleId, filter, sort, onSetSort, onSetRoleId, onSetFilte
             ))}
             </tbody>
         </table>
+        <div>
+            <Paginator
+                filteredTotal={filteredTotal}
+                total={total}
+                page={pagination.page}
+                perPage={pagination.perPage}
+                onSetPage={onSetPage}
+                onSetPerPage={onSetPerPage}/>
+        </div>
+
+
     </div>
 };
 
@@ -62,11 +109,16 @@ DataGrid = connect(state => ({
     users: gridReducer.getProcessedItems(state),
     roleId: gridReducer.getRoleId(state),
     filter: gridReducer.getFilter(state),
-    sort: gridReducer.getSort(state)
+    sort: gridReducer.getSort(state),
+    pagination: gridReducer.getPagination(state),
+    total: gridReducer.getTotal(state),
+    filteredTotal: gridReducer.getFilteredTotal(state)
 }), {
     onSetRoleId: actions.setRoleId,
     onSetFilter: actions.setFilter,
-    onSetSort: actions.setSort
+    onSetSort: actions.setSort,
+    onSetPage: actions.setPage,
+    onSetPerPage: actions.setPerPage
 })(DataGrid);
 
 export default DataGrid;

@@ -42,3 +42,5 @@ export const pushTodo = (todo) => ({
 export const setRoleId = (roleId) => ({type: 'SET_ROLEID', payload: roleId});
 export const setFilter = (filter) => ({type: 'SET_FILTER', payload: filter});
 export const setSort = (by, reverse) => ({type: 'SET_SORT', payload: {by, reverse}});
+export const setPage = (page) => ({type: 'SET_PAGE', payload: page});
+export const setPerPage = (perPage) => ({type: 'SET_PER_PAGE', payload: perPage});
