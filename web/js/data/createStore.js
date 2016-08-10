@@ -3,6 +3,12 @@ import promiseMiddleware from "redux-promise-middleware";
 import loggerMiddleware from "redux-logger";
 import todoApp from "./reducers";
 import throttle from 'lodash/throttle';
+import data from "../data/userList.json";
+
+const assignRolesToUsers = (roles, users) => users.map(user => ({
+    ...user,
+    roles: user.roleIds.map(id => roles[id])
+}));
 
 const loadState = () => {
     try {
@@ -28,7 +34,12 @@ const saveState = (state) => {
 export default function () {
     var store = createStore(
         todoApp,
-        loadState(),
+        {
+            ...loadState(),
+            grid: {
+                items: assignRolesToUsers(data.roles, data.users)
+            }
+        },
         applyMiddleware(
             promiseMiddleware({
                 promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR']

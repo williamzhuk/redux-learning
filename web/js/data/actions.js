@@ -37,3 +37,8 @@ export const pushTodo = (todo) => ({
     type: 'PUSH_TODO',
     payload: todo
 });
+
+//FSA-compatible
+export const setRoleId = (roleId) => ({type: 'SET_ROLEID', payload: roleId});
+export const setFilter = (filter) => ({type: 'SET_FILTER', payload: filter});
+export const setSort = (by, reverse) => ({type: 'SET_SORT', payload: {by, reverse}});

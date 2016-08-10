@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import FilterLink from "./filterLink";
 import ApiTodos from "./apiTodos";
 import Checkbox from "./checkbox";
+import DataGrid from "./dataGrid";
 
 let TodoApp = () => {
 
@@ -16,6 +17,8 @@ let TodoApp = () => {
             <ApiTodos/>
             <hr/>
             <Checkbox/>
+            <hr/>
+            <DataGrid users={[]}/>
         </div>
     );
 

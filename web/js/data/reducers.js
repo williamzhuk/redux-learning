@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 import {v4} from "node-uuid";
 import {createSelector} from "reselect";
+import gridReducer from "./gridReducer";
 
 // Reducers
 
@@ -121,5 +122,6 @@ export default combineReducers({
         fetched: apiTodosLoading,
         loading: apiTodosLoading,
         loadingSave: apiTodosLoadingSave
-    })
+    }),
+    grid: gridReducer
 });
