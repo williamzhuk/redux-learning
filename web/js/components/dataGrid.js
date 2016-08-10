@@ -27,6 +27,7 @@ let DataGrid = ({users, roleId, filter, sort, onSetSort, onSetRoleId, onSetFilte
     const onInputChange = (e) => {
         onSetFilter(e.target.value);
     };
+    const replaceFn = gridReducer.replaceFn(filter);
 
     return <div>
         <input onChange={onInputChange} value={filter}/>
@@ -46,8 +47,8 @@ let DataGrid = ({users, roleId, filter, sort, onSetSort, onSetRoleId, onSetFilte
             <tbody>
             {users.map((user) => (
                 <tr key={user.id}>
-                    <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
+                    <td dangerouslySetInnerHTML={{__html: replaceFn(user.firstName)}}/>
+                    <td dangerouslySetInnerHTML={{__html: replaceFn(user.lastName)}}/>
                     <td>{user.roles.map((role, i) => (<span key={i}>{role.name}&nbsp;</span>))}
                     </td>
                 </tr>

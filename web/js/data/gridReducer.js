@@ -44,11 +44,39 @@ const compareByRoles = (a, b) => {
     return a.roles[0].id - b.roles[0].id;
 };
 
-const filterFn = (roleId, filter) => (item) => (
-    (!roleId || ~item.roleIds.indexOf(roleId)) &&
-    (!filter || ~item.firstName.indexOf(filter) || ~item.lastName.indexOf(filter))
+function escapeRegExp(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
+const createRegexp = createSelector(
+    (filter) => filter,
+    (filter) => (
+        new RegExp(
+            '(' +
+            filter
+                .split(' ')
+                .map(f => '(?:' + escapeRegExp(f) + ')')
+                .join('|') +
+            ')',
+            'igm'
+        )
+    )
 );
 
+export const matchFn = (str, filter) => (
+    createRegexp(filter).test(str)
+);
+
+export const replaceFn = (filter) => (str) => (
+    filter ? str.replace(createRegexp(filter), '<strong>$1</strong>') : str
+);
+
+const filterFn = (roleId, filter) => (item) => (
+    (!roleId || ~item.roleIds.indexOf(roleId)) &&
+    (!filter || (
+        matchFn(item.firstName, filter) || matchFn(item.lastName, filter)
+    ))
+);
 
 const sortFn = ({by, reverse}) => (a, b) => (
     (
