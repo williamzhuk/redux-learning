@@ -27,7 +27,7 @@ let Paginator = ({page, perPage, total, filteredTotal, onSetPage, onSetPerPage})
     const numPages = Math.ceil(filteredTotal / perPage);
     let array = [];
     for (let i = 1; i <= numPages; ++i) {
-        array.push(<button onClick={onSetPage.bind(null, i)} disabled={page == i}>{i}</button>)
+        array.push(<button onClick={onSetPage.bind(null, i)} disabled={page == i} key={i}>{i}</button>)
     }
 
     return <span>

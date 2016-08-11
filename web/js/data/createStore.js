@@ -1,8 +1,8 @@
-import {createStore, applyMiddleware} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import promiseMiddleware from "redux-promise-middleware";
 import loggerMiddleware from "redux-logger";
 import todoApp from "./reducers";
-import throttle from 'lodash/throttle';
+import throttle from "lodash/throttle";
 import data from "../data/userList.json";
 
 const assignRolesToUsers = (roles, users) => users.map(user => ({
@@ -31,7 +31,7 @@ const saveState = (state) => {
     }
 };
 
-export default function () {
+export default function() {
     var store = createStore(
         todoApp,
         {
@@ -40,13 +40,16 @@ export default function () {
                 items: assignRolesToUsers(data.roles, data.users)
             }
         },
-        applyMiddleware(
-            promiseMiddleware({
-                promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR']
-            }),
-            loggerMiddleware({
-                collapsed: true
-            })
+        compose(
+            applyMiddleware(
+                promiseMiddleware({
+                    promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR']
+                }),
+                loggerMiddleware({
+                    collapsed: true
+                })
+            ),
+            window.devToolsExtension ? window.devToolsExtension() : f => f
         )
     );
     store.subscribe(throttle(() => {
