@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -rf build/*.*",
     "build": "npm run clean && NODE_ENV=production webpack --progress --profile --colors",
-    "start": "NODE_ENV=development webpack-dev-server --color --progress --hot"
+    "start": "NODE_ENV=development webpack-dev-server --color --progress --hot",
+    "test": "./node_modules/karma/bin/karma start"
   },
   "author": "",
   "license": "ISC",
@@ -39,5 +40,21 @@
     "url-loader": "0.5.7",
     "webpack": "1.12.5",
     "webpack-dev-server": "1.14.1"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.13.0",
+    "chai": "^3.5.0",
+    "karma": "^1.2.0",
+    "karma-chai-plugins": "^0.7.0",
+    "karma-coverage": "^1.1.1",
+    "karma-html-reporter": "^0.2.7",
+    "karma-mocha": "^1.1.1",
+    "karma-mocha-reporter": "^2.1.0",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.8.0",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0"
   }
 }

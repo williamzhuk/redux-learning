@@ -20,7 +20,7 @@ module.exports = {
         //'router.js': './web/js/router'
     },
     output: {
-        path: __dirname + '/build/',
+        path: __dirname + '/build/web',
         publicPath: '/',
         sourcePrefix: '',
         filename: '[name]' + (isProduction ? '?[chunkhash]' : ''),
@@ -29,7 +29,7 @@ module.exports = {
     },
     plugins: (isProduction ? [
         //TODO Add Uglify
-        new StatsPlugin('webpack-build-statistics.json', {chunkModules: true, exclude: excludeFromStats})
+        new StatsPlugin('../webpack-build-statistics.json', {chunkModules: true, exclude: excludeFromStats})
     ] : [
         new webpack.NoErrorsPlugin()
     ]).concat([
