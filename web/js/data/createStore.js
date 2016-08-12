@@ -5,17 +5,12 @@ import todoApp from "./reducers";
 import throttle from "lodash/throttle";
 import data from "../data/userList.json";
 
-const assignRolesToUsers = (roles, users) => users.map(user => ({
-    ...user,
-    roles: user.roleIds.map(id => roles[id])
-}));
+const localStorageKey = 'web-store';
 
 const loadState = () => {
     try {
-        const serializedState = localStorage.getItem('todos');
-        if (serializedState === null) {
-            return undefined;
-        }
+        const serializedState = localStorage.getItem(localStorageKey);
+        if (serializedState === null) return undefined;
         return JSON.parse(serializedState);
     } catch (err) {
         return undefined;
@@ -25,7 +20,7 @@ const loadState = () => {
 const saveState = (state) => {
     try {
         const serializedState = JSON.stringify(state);
-        localStorage.setItem('todos', serializedState);
+        localStorage.setItem(localStorageKey, serializedState);
     } catch (err) {
         // Ignore write errors.
     }
