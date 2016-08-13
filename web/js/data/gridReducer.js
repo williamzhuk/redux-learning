@@ -7,7 +7,7 @@ const gridItemsReducer = (state = [], action) => {
 
 const gridRoleReducer = (state = 0, {type, payload}) => {
     switch (type) {
-        case 'SET_ROLEID':
+        case 'SET_ROLE_ID':
             return payload;
         default:
             return state;
@@ -35,7 +35,7 @@ const gridSortReducer = (state = {by: "firstName", reverse: false}, {type, paylo
 const gridPaginationReducer = (state = {page: 1, perPage: 5}, {type, payload}) => {
     switch (type) {
         case 'SET_FILTER':
-        case 'SET_ROLEID':
+        case 'SET_ROLE_ID':
             return {...state, page: 1};
         case 'SET_PER_PAGE':
             return {...state, page: 1, perPage: payload};
