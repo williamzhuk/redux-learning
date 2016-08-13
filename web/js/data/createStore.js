@@ -1,11 +1,17 @@
 import {createStore, applyMiddleware, compose} from "redux";
 import promiseMiddleware from "redux-promise-middleware";
+import thunkMiddleware from "redux-thunk";
 import loggerMiddleware from "redux-logger";
 import todoApp from "./reducers";
 import throttle from "lodash/throttle";
 import data from "../data/userList.json";
 
-const localStorageKey = 'web-store';
+const assignRolesToUsers = (roles, users) => users.map(user => ({
+    ...user,
+    roles: user.roleIds.map(id => roles[id])
+}));
+
+const localStorageKey = 'todos';
 
 const loadState = () => {
     try {
@@ -40,6 +46,7 @@ export default function() {
                 promiseMiddleware({
                     promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR']
                 }),
+                thunkMiddleware,
                 loggerMiddleware({
                     collapsed: true
                 })
@@ -48,9 +55,8 @@ export default function() {
         )
     );
     store.subscribe(throttle(() => {
-        saveState({
-            todos: store.getState().todos
-        })
+        const {auth} = store.getState();
+        saveState({auth});
     }), 1000);
     if (module.hot) {
         module.hot.accept('./reducers', () => {

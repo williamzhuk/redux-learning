@@ -1,7 +1,8 @@
 import * as api from "./api";
+import {hashHistory} from "react-router";
+//TODO: put history into history.js file and import it from everywhere else
 
 let saveTodo = api.save('/api/todo');
-
 
 export const check = (checked) => ({type: 'CHECK', checked});
 
@@ -29,3 +30,22 @@ export const setSort = (by, reverse) => ({
 });
 export const setPage = (page) => ({type: 'SET_PAGE', payload: page});
 export const setPerPage = (perPage) => ({type: 'SET_PER_PAGE', payload: perPage});
+
+
+//AUTH
+const delay = (cb) => (dispatch, ...args) => {
+    setTimeout(() => {
+        cb(dispatch, ...args);
+    }, 1);
+    return (dispatch) => {
+    };
+};
+
+export const login = (user) => ({type: 'LOGIN_SUCCESS', payload: user});
+export const logout = () => ({type: 'LOGOUT_SUCCESS'});
+export const goToLogin = delay(() => {
+    hashHistory.push('/login');
+});
+export const goToIndex = delay(() => {
+    hashHistory.push('/');
+});

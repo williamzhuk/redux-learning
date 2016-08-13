@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import {v4} from "node-uuid";
 import {createSelector} from "reselect";
 import gridReducer from "./gridReducer";
+import authReducer from "./authReducer";
 
 // Reducers
 
@@ -115,7 +116,7 @@ export const getTodosByFilter = createSelector(
 
 export default combineReducers({
     check: checkReducer,
-    apiTodos: combineReducers({
+    apiTodos: combineReducers({ //TODO Make separate file
         edits: apiTodosEdits,
         items: apiTodosItems,
         error: apiTodosError,
@@ -123,5 +124,6 @@ export default combineReducers({
         loading: apiTodosLoading,
         loadingSave: apiTodosLoadingSave
     }),
-    grid: gridReducer
+    grid: gridReducer,
+    auth: authReducer
 });
