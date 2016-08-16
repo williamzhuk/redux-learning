@@ -1,6 +1,7 @@
 import * as api from "./api";
-import {hashHistory} from "react-router";
-//TODO: put history into history.js file and import it from everywhere else
+import History from "./history";
+
+console.log(History);
 
 let saveTodo = api.save('/api/todo');
 
@@ -11,10 +12,10 @@ export const toggleTodoAPI = (todo) => (
     saveTodoAPI({...todo, completed: !todo.completed})
 );
 export const fetchTodoAPI = () => ({
-    type: 'FETCH_TODO_API', payload: api.list('/api/todo')
+    type: 'FETCH_TODO', payload: api.list('/api/todo')
 });
 export const saveTodoAPI = (todo) => ({
-    type: 'SAVE_TODO_API', payload: saveTodo(todo)
+    type: 'SAVE_TODO', payload: saveTodo(todo)
 });
 export const editTodo = (todo) => ({type: 'EDIT_TODO', todo});
 export const cancelEditTodo = (todo) => ({type: 'CANCEL_EDIT_TODO', todo});
@@ -44,8 +45,8 @@ const delay = (cb) => (dispatch, ...args) => {
 export const login = (user) => ({type: 'LOGIN_SUCCESS', payload: user});
 export const logout = () => ({type: 'LOGOUT_SUCCESS'});
 export const goToLogin = delay(() => {
-    hashHistory.push('/login');
+    History.push('/login');
 });
 export const goToIndex = delay(() => {
-    hashHistory.push('/');
+    History.push('/');
 });

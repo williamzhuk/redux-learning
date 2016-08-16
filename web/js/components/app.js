@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import FilterLink from "./filterLink";
 import ApiTodos from "./apiTodos";
 import Checkbox from "./checkbox";

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
 import * as reducers from "../data/reducers";
@@ -24,7 +24,7 @@ class ApiTodos extends React.Component {
         if (loading) return <div>Loading</div>;
         if (error) return <div>ERROR!!! {error.message || error}</div>;
 
-        console.log('ApiTodos', items.length);
+        //console.log('ApiTodos', items.length);
 
         return (
             <div>

@@ -8,7 +8,7 @@ import authReducer from "./authReducer";
 
 const apiTodosItems = (state = [], action) => {
     switch (action.type) {
-        case 'SAVE_TODO_API_SUCCESS':
+        case 'SAVE_TODO_SUCCESS':
             let found = false;
             let items = state.map((item) => {
                 let isSame = item.id == action.payload.id;
@@ -22,7 +22,7 @@ const apiTodosItems = (state = [], action) => {
                 items.push(action.payload);
             }
             return items;
-        case 'FETCH_TODO_API_SUCCESS':
+        case 'FETCH_TODO_SUCCESS':
             return action.payload;
         case 'PUSH_TODO':
             return [...state, action.payload];
@@ -33,13 +33,13 @@ const apiTodosItems = (state = [], action) => {
 
 const apiTodosError = (state = null, action) => {
     switch (action.type) {
-        case 'SAVE_TODO_API_LOADING':
-        case 'FETCH_TODO_API_LOADING':
-        case 'SAVE_TODO_API_SUCCESS':
-        case 'FETCH_TODO_API_SUCCESS':
+        case 'SAVE_TODO_LOADING':
+        case 'FETCH_TODO_LOADING':
+        case 'SAVE_TODO_SUCCESS':
+        case 'FETCH_TODO_SUCCESS':
             return null;
-        case 'SAVE_TODO_API_ERROR':
-        case 'FETCH_TODO_API_ERROR':
+        case 'SAVE_TODO_ERROR':
+        case 'FETCH_TODO_ERROR':
             return action.payload;
         default:
             return state;
@@ -48,10 +48,10 @@ const apiTodosError = (state = null, action) => {
 
 const apiTodosLoading = (state = false, action) => {
     switch (action.type) {
-        case 'FETCH_TODO_API_LOADING':
+        case 'FETCH_TODO_LOADING':
             return true;
-        case 'FETCH_TODO_API_SUCCESS':
-        case 'FETCH_TODO_API_ERROR':
+        case 'FETCH_TODO_SUCCESS':
+        case 'FETCH_TODO_ERROR':
             return false;
         default:
             return state;
@@ -60,10 +60,10 @@ const apiTodosLoading = (state = false, action) => {
 
 const apiTodosLoadingSave = (state = false, action) => {
     switch (action.type) {
-        case 'SAVE_TODO_API_LOADING':
+        case 'SAVE_TODO_LOADING':
             return true;
-        case 'SAVE_TODO_API_SUCCESS':
-        case 'SAVE_TODO_API_ERROR':
+        case 'SAVE_TODO_SUCCESS':
+        case 'SAVE_TODO_ERROR':
             return false;
         default:
             return state;
@@ -78,7 +78,7 @@ const apiTodosEdits = (state = {}, action) => {
         case 'CANCEL_EDIT_TODO':
             delete newState[action.todo.id];
             return newState;
-        case 'SAVE_TODO_API_SUCCESS':
+        case 'SAVE_TODO_SUCCESS':
             delete newState[action.payload.id];
             return newState;
         //TODO Handle save error

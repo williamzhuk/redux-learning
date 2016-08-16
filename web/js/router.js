@@ -1,15 +1,16 @@
 import React from "react";
-import {Router, Route, hashHistory, IndexRoute} from "react-router";
+import {Router, Route, IndexRoute} from "react-router";
 import App from "./components/app";
 import LoggedInWrapper from './layouts/loggedInWrapper';
 import LoggedOutWrapper from './layouts/loggedOutWrapper';
 import Login from './components/login';
+import History from './data/history'
 
 const Pass = ({children}) => (children);
 
 //
 
-export default <Router history={hashHistory}>
+export default <Router history={History}>
     <Route path="/" component={Pass}>
         <Route component={LoggedInWrapper}>
             <IndexRoute component={App}/>
