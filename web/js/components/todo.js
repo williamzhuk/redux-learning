@@ -67,9 +67,9 @@ export function Todo({
 let TodoWrapped = connect((state, ownProps) => ({
     isEdit: reducers.getTodoEditTextById(state, ownProps.todo.id)
 }), {
-    onToggleTodo: actions.toggleTodoAPI,
+    onToggleTodo: actions.toggleTodo,
     onEditTodo: actions.editTodo,
-    onSaveTodo: actions.saveTodoAPI,
+    onSaveTodo: actions.saveTodo,
     onCancelEditTodo: actions.cancelEditTodo
 })(Todo);
 

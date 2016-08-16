@@ -3,19 +3,19 @@ import History from "./history";
 
 console.log(History);
 
-let saveTodo = api.save('/api/todo');
+let apiSaveTodo = api.save('/api/todo');
 
 export const check = (checked) => ({type: 'CHECK', checked});
 
 //TODOS
-export const toggleTodoAPI = (todo) => (
-    saveTodoAPI({...todo, completed: !todo.completed})
+export const toggleTodo = (todo) => (
+    saveTodo({...todo, completed: !todo.completed})
 );
-export const fetchTodoAPI = () => ({
+export const fetchTodo = () => ({
     type: 'FETCH_TODO', payload: api.list('/api/todo')
 });
-export const saveTodoAPI = (todo) => ({
-    type: 'SAVE_TODO', payload: saveTodo(todo)
+export const saveTodo = (todo) => ({
+    type: 'SAVE_TODO', payload: apiSaveTodo(todo)
 });
 export const editTodo = (todo) => ({type: 'EDIT_TODO', todo});
 export const cancelEditTodo = (todo) => ({type: 'CANCEL_EDIT_TODO', todo});

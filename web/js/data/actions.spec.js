@@ -38,8 +38,8 @@ describe('Actions', () => {
         it('should return proper actions', ()=> {
             expect(actions.editTodo().type).to.be.equal('EDIT_TODO');
             expect(actions.cancelEditTodo().type).to.be.equal('CANCEL_EDIT_TODO');
-            //expect(actions.fetchTodoAPI().type).to.be.equal('FETCH_TODO_API');
-            //expect(actions.saveTodoAPI().type).to.be.equal('SAVE_TODO_API');
+            //expect(actions.fetchTodo().type).to.be.equal('FETCH_TODO_API');
+            //expect(actions.saveTodo().type).to.be.equal('SAVE_TODO_API');
             expect(actions.pushTodo().type).to.be.equal('PUSH_TODO');
         });
         it('should hold correct payload', () => {
@@ -49,7 +49,7 @@ describe('Actions', () => {
             expect(actions.cancelEditTodo(spy).todo).to.be.equal(spy);
             expect(actions.pushTodo(spy).payload).to.be.equal(spy);
 
-            //TODO: saveTodoAPI and fetchTodoAPI both use api. How to test? Check for correct API call?
+            //TODO: saveTodo and fetchTodo both use api. How to test? Check for correct API call?
 
         })
     });

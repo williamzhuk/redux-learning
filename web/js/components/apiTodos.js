@@ -49,8 +49,8 @@ ApiTodos = connect((state, ownProps) => ({
     error: state.apiTodos.error,
     items: reducers.getTodosByFilter(state, ownProps.params.filter)
 }), {
-    onTodoSave: actions.saveTodoAPI,
-    onTodoFetch: actions.fetchTodoAPI
+    onTodoSave: actions.saveTodo,
+    onTodoFetch: actions.fetchTodo
 })(ApiTodos);
 
 ApiTodos = withRouter(ApiTodos);
