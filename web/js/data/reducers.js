@@ -6,7 +6,7 @@ import authReducer from "./authReducer";
 
 // Reducers
 
-const apiTodosItems = (state = [], action) => {
+const todosItems = (state = [], action) => {
     switch (action.type) {
         case 'SAVE_TODO_SUCCESS':
             let found = false;
@@ -31,7 +31,7 @@ const apiTodosItems = (state = [], action) => {
     }
 };
 
-const apiTodosError = (state = null, action) => {
+const todosError = (state = null, action) => {
     switch (action.type) {
         case 'SAVE_TODO_LOADING':
         case 'FETCH_TODO_LOADING':
@@ -46,7 +46,7 @@ const apiTodosError = (state = null, action) => {
     }
 };
 
-const apiTodosLoading = (state = false, action) => {
+const todosLoading = (state = false, action) => {
     switch (action.type) {
         case 'FETCH_TODO_LOADING':
             return true;
@@ -58,7 +58,7 @@ const apiTodosLoading = (state = false, action) => {
     }
 };
 
-const apiTodosLoadingSave = (state = false, action) => {
+const todosLoadingSave = (state = false, action) => {
     switch (action.type) {
         case 'SAVE_TODO_LOADING':
             return true;
@@ -70,7 +70,7 @@ const apiTodosLoadingSave = (state = false, action) => {
     }
 };
 
-const apiTodosEdits = (state = {}, action) => {
+const todosEdits = (state = {}, action) => {
     let newState = {...state};
     switch (action.type) {
         case 'EDIT_TODO':
@@ -117,12 +117,12 @@ export const getTodosByFilter = createSelector(
 export default combineReducers({
     check: checkReducer,
     apiTodos: combineReducers({ //TODO Make separate file
-        edits: apiTodosEdits,
-        items: apiTodosItems,
-        error: apiTodosError,
-        fetched: apiTodosLoading,
-        loading: apiTodosLoading,
-        loadingSave: apiTodosLoadingSave
+        edits: todosEdits,
+        items: todosItems,
+        error: todosError,
+        fetched: todosLoading,
+        loading: todosLoading,
+        loadingSave: todosLoadingSave
     }),
     grid: gridReducer,
     auth: authReducer
