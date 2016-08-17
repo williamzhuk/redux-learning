@@ -6,7 +6,7 @@ import authReducer from "./authReducer";
 
 // Reducers
 
-const todosItems = (state = [], action) => {
+export const todosItems = (state = [], action) => {
     switch (action.type) {
         case 'SAVE_TODO_SUCCESS':
             let found = false;
@@ -31,7 +31,7 @@ const todosItems = (state = [], action) => {
     }
 };
 
-const todosError = (state = null, action) => {
+export const todosError = (state = null, action) => {
     switch (action.type) {
         case 'SAVE_TODO_LOADING':
         case 'FETCH_TODO_LOADING':
@@ -46,7 +46,7 @@ const todosError = (state = null, action) => {
     }
 };
 
-const todosLoading = (state = false, action) => {
+export const todosLoading = (state = false, action) => {
     switch (action.type) {
         case 'FETCH_TODO_LOADING':
             return true;
@@ -58,7 +58,7 @@ const todosLoading = (state = false, action) => {
     }
 };
 
-const todosLoadingSave = (state = false, action) => {
+export const todosLoadingSave = (state = false, action) => {
     switch (action.type) {
         case 'SAVE_TODO_LOADING':
             return true;
@@ -70,7 +70,7 @@ const todosLoadingSave = (state = false, action) => {
     }
 };
 
-const todosEdits = (state = {}, action) => {
+export const todosEdits = (state = {}, action) => {
     let newState = {...state};
     switch (action.type) {
         case 'EDIT_TODO':
@@ -87,7 +87,7 @@ const todosEdits = (state = {}, action) => {
     }
 };
 
-const checkReducer = (state = false, action) => {
+export const checkReducer = (state = false, action) => {
     if (action.type == 'CHECK')
         return action.checked;
     return state;
