@@ -103,10 +103,10 @@ const filterFn = (filter = 'all') => {
     };
 };
 
-export const getTodoEditTextById = (state, id) => state.apiTodos.edits[id];
+export const getTodoEditTextById = (state, id) => state.todos.edits[id];
 export const getTodosByFilter = createSelector(
     [
-        (state, filter) => state.apiTodos.items,
+        (state, filter) => state.todos.items,
         (state, filter) => filter
     ],
     (items, filter) => items.filter(filterFn(filter))
@@ -116,7 +116,7 @@ export const getTodosByFilter = createSelector(
 
 export default combineReducers({
     check: checkReducer,
-    apiTodos: combineReducers({ //TODO Make separate file
+    todos: combineReducers({ //TODO Make separate file
         edits: todosEdits,
         items: todosItems,
         error: todosError,
