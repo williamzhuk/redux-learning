@@ -36,7 +36,32 @@ describe('Reducers', () => {
             });
 
 
+        });
 
+        describe("error reducer", () => {
+            it("should give null on success or load", () => {
+                expect(reducers.todosError(new Error("Foo"), {type: "SAVE_TODO_SUCCESS"})).to.be.equal(null);
+            });
+            const error = new Error("FOO");
+            it("should return error on error", () => {
+                expect(reducers.todosError(null, {type: "SAVE_TODO_ERROR", payload: error})).to.be.equal(error);
+            });
+            it("should not change state on default", () => {
+                expect(reducers.todosError(error, {type: "NONEXISTENT_ACTION"})).to.be.equal(error);
+            })
+        });
+
+        describe("loading reducer", () => {
+            it("should be true when loading", () => {
+                expect(reducers.todosLoading(false, {type: "FETCH_TODO_LOADING"})).to.be.equal(true);
+            });
+            it("should be false when finished", () => {
+                expect(reducers.todosLoading(true, {type: "FETCH_TODO_ERROR"})).to.be.equal(false);
+            });
+            it("should not change state on default", () => {
+                const spy = sinon.spy();
+                expect(reducers.todosLoading(spy, {type: "NONEXISTENT_ACTION"})).to.be.equal(spy);
+            });
         })
     })
 });
