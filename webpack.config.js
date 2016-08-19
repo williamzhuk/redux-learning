@@ -6,7 +6,7 @@
     var autoprefixer = require('autoprefixer');
 
     var argv = process.argv.join(' ');
-    var isProduction = !~argv.indexOf('webpack-dev-server') && !~argv.indexOf('karma');
+    var isProduction = !~argv.indexOf('webpack-dev-server') && ~argv.indexOf('karma');
 
     process.env.NODE_ENV == isProduction ? 'production' : 'development';
 

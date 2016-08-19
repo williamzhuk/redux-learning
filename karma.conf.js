@@ -4,7 +4,8 @@ module.exports = function (config) {
 
     delete webpackConfig.entry;
     webpackConfig.devtool = 'inline-source-map';
-
+    webpackConfig.output = null;
+    webpackConfig.plugins = null;
     webpackConfig.module.postLoaders = [
         {
             test: /\.js$/,
