@@ -5,7 +5,10 @@
     var precss = require('precss');
     var autoprefixer = require('autoprefixer');
 
-    var isProduction = process.env.NODE_ENV == 'production';
+    var argv = process.argv.join(' ');
+    var isProduction = !~argv.indexOf('webpack-dev-server') && !~argv.indexOf('karma');
+
+    process.env.NODE_ENV == isProduction ? 'production' : 'development';
 
     var excludeFromStats = [
         /node_modules[\\\/](react|react-(?:hot-api|router|dom|dnd)|lodash.*|core-js|history|fbjs|sockjs-client|bootstrap-sass|dnd-core)[\\\/]/

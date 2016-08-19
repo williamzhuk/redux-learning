@@ -1,16 +1,25 @@
-module.exports = function(config) {
+module.exports = function (config) {
 
     var webpackConfig = require('./webpack.config');
 
     delete webpackConfig.entry;
     webpackConfig.devtool = 'inline-source-map';
 
+    webpackConfig.module.postLoaders = [
+        {
+            test: /\.js$/,
+            exclude: /(\.spec\.js|node_modules|bower_components)/,
+            loader: 'istanbul-instrumenter'
+        }
+    ];
+
     config.set({
 
         webpack: webpackConfig,
 
         webpackMiddleware: {
-            noInfo: true
+            // noInfo: true
+            stats: 'errors-only'
         },
 
         basePath: '.',
@@ -22,8 +31,8 @@ module.exports = function(config) {
         ],
 
         files: [
-           require.resolve('babel-polyfill/dist/polyfill'),
-            './test/glob.js'
+            require.resolve('babel-polyfill/dist/polyfill'),
+            {pattern: './web/**/*.spec.js', watched: false}
         ],
 
         reporters: ['mocha', 'coverage'], // html
@@ -40,8 +49,7 @@ module.exports = function(config) {
         logLevel: config.LOG_WARN,
 
         preprocessors: {
-            './test/glob.js': ['webpack', 'sourcemap', 'coverage'],
-            './src/**/*.js': ['coverage']
+            './web/**/*.spec.js': ['webpack', 'sourcemap']
         },
 
         browsers: ['PhantomJS'],
