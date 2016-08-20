@@ -1,5 +1,6 @@
 import * as api from "./api";
 import History from "./history";
+import {publish}  from './pubnub'
 
 console.log(History);
 
@@ -50,3 +51,10 @@ export const goToLogin = delay(() => {
 export const goToIndex = delay(() => {
     History.push('/');
 });
+
+export const chatReceive = (message) => ({type: 'CHAT_RECEIVE', payload: message});
+
+export const chatSend = (message) => {
+    publish(message);
+    return {type: 'CHAT_SEND', payload: message};
+};

@@ -3,6 +3,7 @@ import {v4} from "node-uuid";
 import {createSelector} from "reselect";
 import gridReducer from "./gridReducer";
 import authReducer from "./authReducer";
+import chatReducer from './chatReducer';
 
 // Reducers
 
@@ -125,5 +126,6 @@ export default combineReducers({
         loadingSave: todosLoadingSave
     }),
     grid: gridReducer,
-    auth: authReducer
+    auth: authReducer,
+    chat: chatReducer
 });

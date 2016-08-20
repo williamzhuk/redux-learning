@@ -3,6 +3,7 @@ import FilterLink from "./filterLink";
 import ApiTodos from "./apiTodos";
 import Checkbox from "./checkbox";
 import DataGrid from "./dataGrid";
+import Chat from './chat';
 
 let TodoApp = () => {
 
@@ -19,6 +20,8 @@ let TodoApp = () => {
             <Checkbox/>
             <hr/>
             <DataGrid users={[]}/>
+            <hr/>
+            <Chat/>
         </div>
     );
 
