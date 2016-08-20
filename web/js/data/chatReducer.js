@@ -1,8 +1,23 @@
+import {combineReducers} from "redux";
+
 export const getChat = (state) => state.chat;
+export const getChatMessages = (state) => getChat(state).messages;
+export const getChatTimeStamp = (state) => getChat(state).timeStamp;
 
-
-const chatReducer = (state = [], action) => {
+const timeStampReducer = (state = null, action) => {
     switch (action.type) {
+        case 'CHAT_HISTORY':
+            return action.payload.timestamp;
+        default:
+            return state;
+    }
+};
+
+
+const messagesReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'CHAT_HISTORY':
+            return [...action.payload.messages, ...state];
         case 'CHAT_RECEIVE':
             return [...state, action.payload];
         case 'CHAT_SEND':
@@ -12,4 +27,7 @@ const chatReducer = (state = [], action) => {
 };
 
 
-export default chatReducer;
+export default combineReducers({
+    messages: messagesReducer,
+    timeStamp: timeStampReducer
+});

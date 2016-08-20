@@ -1,17 +1,21 @@
 import React from "react";
 import {connect} from "react-redux";
 import * as actions from "../data/actions";
-import {getChat} from "../data/chatReducer"
+import {getChatMessages} from "../data/chatReducer"
 
-const Chat = ({messages, onSend}) => {
+const Chat = ({messages, onSend, onHistory}) => {
     let input;
     const onSubmit = (e) => {
         e.preventDefault();
         onSend(input.value);
         input.value = "";
     };
-
+    const onHistoryClick = (e) => {
+        e.preventDefault();
+        onHistory();
+    };
     return <div>
+        <button type="button" onClick={onHistoryClick}>Load more</button>
         {messages.map((msg, i) => (
             <div key={i}>{msg}</div>
         ))}
@@ -25,5 +29,8 @@ const Chat = ({messages, onSend}) => {
 };
 
 export default connect((state) => ({
-    messages: getChat(state)
-}), {onSend: actions.chatSend})(Chat);
+    messages: getChatMessages(state)
+}), {
+    onSend: actions.chatSend,
+    onHistory: actions.chatHistory
+})(Chat);

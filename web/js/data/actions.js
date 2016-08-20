@@ -1,6 +1,7 @@
 import * as api from "./api";
 import History from "./history";
-import {publish}  from './pubnub'
+import {publish, fetchHistory}  from './pubnub';
+import {getChatTimeStamp}  from './chatReducer';
 
 console.log(History);
 
@@ -53,6 +54,18 @@ export const goToIndex = delay(() => {
 });
 
 export const chatReceive = (message) => ({type: 'CHAT_RECEIVE', payload: message});
+
+export const chatHistory = () => (dispatch, getState) => {
+    fetchHistory(getChatTimeStamp(getState()), (messages, timestamp) => {
+        dispatch({
+            type: "CHAT_HISTORY",
+            payload: {
+                messages,
+                timestamp
+            }
+        });
+    });
+};
 
 export const chatSend = (message) => {
     publish(message);

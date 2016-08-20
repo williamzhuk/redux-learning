@@ -32,3 +32,17 @@ export const publish = (message) => {
         message
     })
 };
+
+
+export const fetchHistory = (lastTimestamp, cb) => {
+    pubnub.history({
+        channel: 'ReactChat',
+        count: 1,
+        start: lastTimestamp,
+        callback: (data) => {
+            // data is Array(3), where index 0 is an array of messages
+            // and index 1 and 2 are start and end dates of the messages
+            cb(data[0], data[1])
+        },
+    });
+};

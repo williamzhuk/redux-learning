@@ -16,6 +16,7 @@ export default function (store) {
         store.dispatch(actions.chatReceive(message));
     });
 
+    actions.chatHistory()(store.dispatch, store.getState);
 
     return store;
 
